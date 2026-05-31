@@ -1,4 +1,5 @@
 using LinkUp.Application.Common.Interfaces;
+using LinkUp.Domain.Interfaces.Repositories;
 using LinkUp.Infrastructure.Cache;
 using LinkUp.Infrastructure.Persistence.Repositories;
 using LinkUp.Infrastructure.Services;
@@ -17,13 +18,13 @@ public static class InfrastructureServiceExtensions
             ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
         // Repositories
-        services.AddScoped<LinkUp.Domain.Interfaces.Repositories.IUserRepository>(
+        services.AddScoped<IUserRepository>(
             _ => new UserRepository(connectionString));
-        services.AddScoped<LinkUp.Domain.Interfaces.Repositories.IConnectionRepository>(
+        services.AddScoped<IConnectionRepository>(
             _ => new ConnectionRepository(connectionString));
-        services.AddScoped<LinkUp.Domain.Interfaces.Repositories.IConnectionRequestRepository>(
+        services.AddScoped<IConnectionRequestRepository>(
             _ => new ConnectionRequestRepository(connectionString));
-        services.AddScoped<LinkUp.Domain.Interfaces.Repositories.IBlockRepository>(
+        services.AddScoped<IBlockRepository>(
             _ => new BlockRepository(connectionString));
 
         // Redis
