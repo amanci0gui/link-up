@@ -19,6 +19,12 @@ public static class InfrastructureServiceExtensions
         // Repositories
         services.AddScoped<LinkUp.Domain.Interfaces.Repositories.IUserRepository>(
             _ => new UserRepository(connectionString));
+        services.AddScoped<LinkUp.Domain.Interfaces.Repositories.IConnectionRepository>(
+            _ => new ConnectionRepository(connectionString));
+        services.AddScoped<LinkUp.Domain.Interfaces.Repositories.IConnectionRequestRepository>(
+            _ => new ConnectionRequestRepository(connectionString));
+        services.AddScoped<LinkUp.Domain.Interfaces.Repositories.IBlockRepository>(
+            _ => new BlockRepository(connectionString));
 
         // Redis
         var redisConnection = config.GetConnectionString("Redis")

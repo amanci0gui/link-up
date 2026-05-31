@@ -57,5 +57,7 @@ public static class Errors
         public static AppError AlreadyExists => new("CONN_001", "Já existe uma conexão ou solicitação pendente com este usuário.", 409);
         public static AppError RequestNotFound => new("CONN_002", "Solicitação de conexão não encontrada.", 404);
         public static AppError NotAuthorized => new("CONN_003", "Você não tem permissão para esta ação.", 403);
+        public static AppError BlockedOrBlocking => new("CONN_004", "Existe um bloqueio entre os usuários.", 403);
+        public static AppError RequestNotPending => new("CONN_005", "Esta solicitação não está mais pendente.", 409);
     }
 }
