@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/LinkUp.Api/LinkUp.Api.csproj" />
+    <Project Path="src/LinkUp.Application/LinkUp.Application.csproj" />
+    <Project Path="src/LinkUp.Domain/LinkUp.Domain.csproj" />
+    <Project Path="src/LinkUp.Infrastructure/LinkUp.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LinkUp.IntegrationTests/LinkUp.IntegrationTests.csproj" />
+    <Project Path="tests/LinkUp.UnitTests/LinkUp.UnitTests.csproj" />
+  </Folder>
+</Solution>
