@@ -6,9 +6,9 @@ using MediatR;
 
 namespace LinkUp.Application.Features.Profile.Commands.UpdateProfile;
 
-public record UpdateProfileCommand(string Name, string? Bio, string? PhotoUrl) : IRequest<Result<UpdateProfileResponse>>;
+public record UpdateProfileCommand(string Name, string? Bio, string? ProfilePictureUrl) : IRequest<Result<UpdateProfileResponse>>;
 
-public record UpdateProfileResponse(Guid Id, string Name, string? Bio, string? PhotoUrl);
+public record UpdateProfileResponse(Guid Id, string Name, string? Bio, string? ProfilePictureUrl);
 
 public class UpdateProfileCommandValidator : AbstractValidator<UpdateProfileCommand>
 {
@@ -23,9 +23,9 @@ public class UpdateProfileCommandValidator : AbstractValidator<UpdateProfileComm
             .MaximumLength(500).WithMessage("Bio deve ter no máximo 500 caracteres.")
             .When(x => x.Bio is not null);
 
-        RuleFor(x => x.PhotoUrl)
+        RuleFor(x => x.ProfilePictureUrl)
             .MaximumLength(500).WithMessage("URL da foto deve ter no máximo 500 caracteres.")
-            .When(x => x.PhotoUrl is not null);
+            .When(x => x.ProfilePictureUrl is not null);
     }
 }
 
@@ -46,9 +46,9 @@ public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommand,
         if (user is null || !user.IsActive || user.IsDeleted)
             return Errors.User.NotFound;
 
-        user.UpdateProfile(command.Name, command.Bio, command.PhotoUrl);
+        user.UpdateProfile(command.Name, command.Bio, command.ProfilePictureUrl);
         await _users.UpdateAsync(user, ct);
 
-        return new UpdateProfileResponse(user.Id, user.Name, user.Bio, user.PhotoUrl);
+        return new UpdateProfileResponse(user.Id, user.Name, user.Bio, user.ProfilePictureUrl);
     }
 }

@@ -6,7 +6,7 @@ namespace LinkUp.Application.Features.Profile.Queries.GetUserProfile;
 
 public record GetUserProfileQuery(Guid UserId) : IRequest<Result<UserProfileResponse>>;
 
-public record UserProfileResponse(Guid Id, string Name, string? Bio, string? PhotoUrl, DateTime CreatedAt);
+public record UserProfileResponse(Guid Id, string Name, string? Bio, string? ProfilePictureUrl, DateTime CreatedAt);
 
 public class GetUserProfileQueryHandler : IRequestHandler<GetUserProfileQuery, Result<UserProfileResponse>>
 {
@@ -21,6 +21,6 @@ public class GetUserProfileQueryHandler : IRequestHandler<GetUserProfileQuery, R
         if (user is null || !user.IsActive || user.IsDeleted)
             return Errors.User.NotFound;
 
-        return new UserProfileResponse(user.Id, user.Name, user.Bio, user.PhotoUrl, user.CreatedAt);
+        return new UserProfileResponse(user.Id, user.Name, user.Bio, user.ProfilePictureUrl, user.CreatedAt);
     }
 }

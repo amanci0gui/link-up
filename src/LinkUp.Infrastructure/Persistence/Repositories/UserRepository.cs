@@ -17,7 +17,7 @@ public class UserRepository : IUserRepository
     public async Task<User?> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
         const string sql = """
-            SELECT id, email, password_hash, name, bio, photo_url, is_active, created_at, updated_at, deleted_at
+            SELECT id, email, password_hash, name, bio, profile_picture_url, is_active, created_at, updated_at, deleted_at
             FROM users
             WHERE id = @Id AND deleted_at IS NULL
             """;
@@ -30,7 +30,7 @@ public class UserRepository : IUserRepository
     public async Task<User?> GetByEmailAsync(string email, CancellationToken ct = default)
     {
         const string sql = """
-            SELECT id, email, password_hash, name, bio, photo_url, is_active, created_at, updated_at, deleted_at
+            SELECT id, email, password_hash, name, bio, profile_picture_url, is_active, created_at, updated_at, deleted_at
             FROM users
             WHERE email = @Email AND deleted_at IS NULL
             """;
@@ -51,8 +51,8 @@ public class UserRepository : IUserRepository
     public async Task AddAsync(User user, CancellationToken ct = default)
     {
         const string sql = """
-            INSERT INTO users (id, email, password_hash, name, bio, photo_url, is_active, created_at, updated_at)
-            VALUES (@Id, @Email, @PasswordHash, @Name, @Bio, @PhotoUrl, @IsActive, @CreatedAt, @UpdatedAt)
+            INSERT INTO users (id, email, password_hash, name, bio, profile_picture_url, is_active, created_at, updated_at)
+            VALUES (@Id, @Email, @PasswordHash, @Name, @Bio, @ProfilePictureUrl, @IsActive, @CreatedAt, @UpdatedAt)
             """;
 
         await using var conn = CreateConnection();
@@ -63,7 +63,7 @@ public class UserRepository : IUserRepository
             user.PasswordHash,
             user.Name,
             user.Bio,
-            user.PhotoUrl,
+            user.ProfilePictureUrl,
             user.IsActive,
             user.CreatedAt,
             user.UpdatedAt
@@ -75,7 +75,7 @@ public class UserRepository : IUserRepository
         const string sql = """
             UPDATE users
             SET email = @Email, password_hash = @PasswordHash, name = @Name,
-                bio = @Bio, photo_url = @PhotoUrl,
+                bio = @Bio, profile_picture_url = @ProfilePictureUrl,
                 is_active = @IsActive, updated_at = @UpdatedAt, deleted_at = @DeletedAt
             WHERE id = @Id
             """;
@@ -88,7 +88,7 @@ public class UserRepository : IUserRepository
             user.PasswordHash,
             user.Name,
             user.Bio,
-            user.PhotoUrl,
+            user.ProfilePictureUrl,
             user.IsActive,
             user.UpdatedAt,
             user.DeletedAt
@@ -103,7 +103,7 @@ public class UserRepository : IUserRepository
         public string PasswordHash { get; init; } = string.Empty;
         public string Name { get; init; } = string.Empty;
         public string? Bio { get; init; }
-        public string? PhotoUrl { get; init; }
+        public string? ProfilePictureUrl { get; init; }
         public bool IsActive { get; init; }
         public DateTime CreatedAt { get; init; }
         public DateTime UpdatedAt { get; init; }
@@ -111,7 +111,7 @@ public class UserRepository : IUserRepository
 
         public User ToDomain()
         {
-            return User.Reconstitute(Id, Email, PasswordHash, Name, Bio, PhotoUrl, IsActive, CreatedAt, UpdatedAt, DeletedAt);
+            return User.Reconstitute(Id, Email, PasswordHash, Name, Bio, ProfilePictureUrl, IsActive, CreatedAt, UpdatedAt, DeletedAt);
         }
     }
 }

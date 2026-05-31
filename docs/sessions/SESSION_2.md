@@ -118,7 +118,25 @@ Ambos seguem padrão `Problem(AppError)` do `AuthController`.
 
 ---
 
-### 2.11 Status de Build
+### 2.11 Correção Pós-Implementação — `photo_url` → `profile_picture_url`
+
+**Problema detectado:** código gerado usou nome de coluna `photo_url` em SQL e prop `PhotoUrl` em C#, mas migration `001_initial_schema.sql` já definia a coluna como `profile_picture_url` (linha 68). Divergência causaria falha silenciosa em runtime — Dapper retornaria `null` para o campo sem lançar exceção.
+
+**Arquivos corrigidos:**
+
+| Arquivo | Mudança |
+|---|---|
+| `LinkUp.Domain/Entities/User.cs` | `PhotoUrl` → `ProfilePictureUrl`; `UpdateProfile()` e `Anonymize()` atualizados |
+| `LinkUp.Infrastructure/Persistence/Repositories/UserRepository.cs` | SQL `photo_url` → `profile_picture_url` em SELECT/INSERT/UPDATE; `UserRow.PhotoUrl` → `ProfilePictureUrl`; `ToDomain()` atualizado |
+| `LinkUp.Application/Features/Profile/Queries/GetUserProfile/GetUserProfileQuery.cs` | `UserProfileResponse.PhotoUrl` → `ProfilePictureUrl` |
+| `LinkUp.Application/Features/Profile/Commands/UpdateProfile/UpdateProfileCommand.cs` | `UpdateProfileCommand.PhotoUrl` → `ProfilePictureUrl`; `UpdateProfileResponse` e validator atualizados |
+| `LinkUp.Application/Features/Connections/Queries/GetConnections/GetConnectionsQuery.cs` | `ConnectionDto.PhotoUrl` → `ProfilePictureUrl` |
+
+**Lição:** nome de propriedade C# deve sempre espelhar exatamente o nome da coluna PostgreSQL (via convenção snake_case ↔ PascalCase do Dapper) para evitar mapeamento silencioso incorreto.
+
+---
+
+### 2.12 Status de Build
 
 ```
 dotnet build → 0 erros, 0 warnings — 7 projetos

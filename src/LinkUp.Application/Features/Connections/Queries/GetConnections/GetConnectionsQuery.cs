@@ -9,7 +9,7 @@ public record GetConnectionsQuery() : IRequest<Result<GetConnectionsResponse>>;
 
 public record GetConnectionsResponse(IReadOnlyList<ConnectionDto> Connections);
 
-public record ConnectionDto(Guid UserId, string Name, string? PhotoUrl, DateTime ConnectedAt);
+public record ConnectionDto(Guid UserId, string Name, string? ProfilePictureUrl, DateTime ConnectedAt);
 
 public class GetConnectionsQueryHandler : IRequestHandler<GetConnectionsQuery, Result<GetConnectionsResponse>>
 {
@@ -39,7 +39,7 @@ public class GetConnectionsQueryHandler : IRequestHandler<GetConnectionsQuery, R
             var user = await _users.GetByIdAsync(otherUserId, ct);
             if (user is null) continue;
 
-            dtos.Add(new ConnectionDto(user.Id, user.Name, user.PhotoUrl, conn.ConnectedAt));
+            dtos.Add(new ConnectionDto(user.Id, user.Name, user.ProfilePictureUrl, conn.ConnectedAt));
         }
 
         return new GetConnectionsResponse(dtos);
