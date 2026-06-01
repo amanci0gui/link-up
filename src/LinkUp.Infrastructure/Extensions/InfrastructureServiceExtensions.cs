@@ -1,3 +1,4 @@
+using Dapper;
 using LinkUp.Application.Common.Interfaces;
 using LinkUp.Domain.Interfaces.Repositories;
 using LinkUp.Infrastructure.Cache;
@@ -13,6 +14,8 @@ public static class InfrastructureServiceExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
     {
+        DefaultTypeMap.MatchNamesWithUnderscores = true;
+
         // PostgreSQL connection string
         var connectionString = config.GetConnectionString("DefaultConnection")
             ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
