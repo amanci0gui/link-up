@@ -60,4 +60,11 @@ public static class Errors
         public static AppError BlockedOrBlocking => new("CONN_004", "Existe um bloqueio entre os usuários.", 403);
         public static AppError RequestNotPending => new("CONN_005", "Esta solicitação não está mais pendente.", 409);
     }
+
+    public static class Contact
+    {
+        public static AppError RecommendationNotAccepted => new("CONT_001", "Contatos só podem ser compartilhados após recomendação aceita.", 409);
+        public static AppError AlreadyShared => new("CONT_002", "Contato já compartilhado nesta recomendação.", 409);
+        public static AppError NotFound => new("CONT_003", "Contato não encontrado.", 404);
+    }
 }

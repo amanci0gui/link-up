@@ -30,6 +30,14 @@ public static class InfrastructureServiceExtensions
         services.AddScoped<IBlockRepository>(
             _ => new BlockRepository(connectionString));
 
+        // Repositórios de Recomendação e Contato
+        services.AddScoped<IRecommendationRepository>(
+            _ => new RecommendationRepository(connectionString));
+        services.AddScoped<IContactRepository>(
+            _ => new ContactRepository(connectionString));
+        services.AddScoped<IContactShareRepository>(
+            _ => new ContactShareRepository(connectionString));
+
         // Redis
         var redisConnection = config.GetConnectionString("Redis")
             ?? throw new InvalidOperationException("Connection string 'Redis' not found.");

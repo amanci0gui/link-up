@@ -95,6 +95,19 @@ public class UserRepository : IUserRepository
         }, cancellationToken: ct));
     }
 
+    public async Task<bool> HasRecommendationsEnabledAsync(Guid userId, CancellationToken ct = default)
+    {
+        const string sql = """
+            SELECT recommendations_enabled
+            FROM users
+            WHERE id = @Id AND deleted_at IS NULL
+            """;
+
+        await using var conn = CreateConnection();
+        return await conn.ExecuteScalarAsync<bool>(
+            new CommandDefinition(sql, new { Id = userId }, cancellationToken: ct));
+    }
+
     // Dapper mapping row
     private sealed class UserRow
     {

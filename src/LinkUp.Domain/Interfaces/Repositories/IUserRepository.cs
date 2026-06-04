@@ -9,4 +9,7 @@ public interface IUserRepository
     Task<bool> ExistsByEmailAsync(string email, CancellationToken ct = default);
     Task AddAsync(User user, CancellationToken ct = default);
     Task UpdateAsync(User user, CancellationToken ct = default);
+
+    /// <summary>Retorna se o usuário aceita receber indicações (coluna recommendations_enabled).</summary>
+    Task<bool> HasRecommendationsEnabledAsync(Guid userId, CancellationToken ct = default);
 }
